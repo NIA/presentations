@@ -1,0 +1,394 @@
+\documentclass[usenames,dvipsnames,pdftex,unicode,hidelinks]{beamer}
+  \usepackage{cmap}
+  \usepackage[T2A]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage[english,russian]{babel}
+  \usepackage{wasysym}
+  \usepackage{mathtext} % для кириллицы в формулах
+    \DeclareSymbolFont{T2Aletters}{T2A}{cmr}{m}{it} % кириллица в формулах курсивом
+
+  \usepackage{tikz}
+    \usetikzlibrary{positioning,fit}
+  \graphicspath{{../img/}{../../img/}}
+
+  % Русификация definition
+  \newtheorem{ru-def}{Определение}
+  \renewenvironment{definition}{\begin{ru-def}}{\end{ru-def}}
+
+  % Начало раздела с показом его заголовка на весь кадр
+  \newcommand{\splashsection}[1]{
+    \section{#1}
+    \begin{frame}[plain]
+      \begin{center}
+        \LARGE #1
+      \end{center}
+    \end{frame}
+  }
+
+  % add frame number to footline
+  \let\oldmacro\insertshorttitle
+  \renewcommand*\insertshorttitle{
+    \insertshortauthor : % Добавляем автора, которого нет в Szeged
+    \oldmacro\hfill
+    \insertframenumber\,/\,\inserttotalframenumber
+  }
+
+  % hide navigation symbols
+  \beamertemplatenavigationsymbolsempty
+
+  \usetheme{Szeged}%{Warsaw}
+  \usecolortheme{albatross}
+  \usefonttheme{structurebold}
+  \useinnertheme{rounded}
+  % Патчим некоторые цвета
+  \setbeamertemplate{background canvas}[vertical shading][bottom=black!60!blue,top=black!80!blue]
+  \setbeamercolor{block title}{bg=black!50!Blue}
+  \setbeamercolor{block body}{bg=black!80!blue}
+
+  \setbeamercovered{transparent}
+
+\title[Чёрные дыры]{Чёрные дыры}
+\author[Иван Новиков]{
+  Новиков Иван Александрович
+  \\
+  \vspace{0.5cm}
+  \small 1 курс магистратуры ФТФ,\\
+         Физика / инф. пр. и сист.
+}
+
+\institute{Кубанский Государственный Университет}
+
+\date{ 29 мая 2013 г. }
+
+\begin{document}
+  
+  \begin{frame}[plain]
+    \titlepage
+  \end{frame}
+
+  \splashsection{Введение}
+  \subsection{Область применения термина}
+
+  \begin{frame}{Астрономия}
+    \begin{center}
+      \includegraphics[height=0.8\textheight]{crab-nebula}
+     \end{center}
+  \end{frame}
+
+  \begin{frame}{Судьбы звёзд \small (что может быть пафоснее)}
+    \begin{enumerate}
+      \item<1-> $\boldsymbol{M} < 1.4 \cdot M_{\sun}$\\
+        $\Rightarrow$ белый карлик {\small + протопланетная туманность}
+        \begin{center}
+          \only<1>{ \includegraphics[height=0.4\textheight]{sun-evolution}  }
+        \end{center}
+      \item<2-> $1.4 \cdot M_{\sun} < \boldsymbol{M} < 10 \cdot M_{\sun}$\\
+        $\Rightarrow$ нейтронная звезда {\small + туманность от сверхновой}
+        \begin{center}
+          \only<2>{ \includegraphics[height=0.4\textheight]{evolved-massive-star}  }
+        \end{center}
+      \item<3-> $10 \dots 20 \cdot M_{\sun} < \boldsymbol{M} $\\
+        $\Rightarrow$ ЧЁРНАЯ ДЫРА
+        \begin{center}
+          \only<3>{ \includegraphics[height=0.4\textheight]{black-hole}  }
+        \end{center}
+    \end{enumerate}
+  \end{frame}
+
+  \subsection{Определение термина}
+
+  \begin{frame}{Понятие чёрной дыры}
+    \begin{definition}
+      \alert{ЧЁРНАЯ ДЫРА}~--- область пространства, в которой гравитационное притяжение настолько
+      сильно, что ни вещество, ни излучение не могут эту область покинуть.
+    \end{definition}
+
+    \begin{center}
+      \begin{tikzpicture}[scale=3, transform shape]
+        \node {$ v_2 > c $};
+      \end{tikzpicture}
+    \end{center}
+
+    \begin{definition}
+      Границу области, за которую не выходит свет, называют \alert{горизонтом событий}, или
+      просто <<горизонтом>> чёрной дыры.
+    \end{definition}
+  \end{frame}
+
+  \begin{frame}{Вывод второй космической скорости}
+    \begin{columns}[c]
+      \begin{column}{0.25\textwidth}
+        \begin{center}
+        \begin{tikzpicture}
+          \tikzstyle{planet} = [circle, shade=ball, ball color=cyan, text=black, minimum size=2cm]
+          \tikzstyle{ship} = [circle, text=black, draw=black, shade=ball, ball color=white]
+          \tikzstyle{noship} = [circle, shade=ball, ball color=white, fill opacity = 0.2, text=white, draw=white, loosely dashed]
+          \tikzstyle{energy} = [font=\footnotesize]
+          \node[planet] (Planet) {M};
+          \only<1>{
+            \node[ship] (Ship) at (Planet.north) {m};
+            \node[noship] (Ship2) [above=3cm of Ship] {m};
+            \draw[->, dashed, gray, very thick] (Ship) -- (Ship2);
+          }
+          \only<2->{
+            \node[noship] (Ship4) at (Planet.north) {m};
+            \node[ship] (Ship3) [above=3cm of Ship4] {m};
+            \draw[->, dashed, gray, very thick] (Ship3) -- (Ship4);
+
+            \node<3->[energy, below] at (Ship3.south) { $E = T + U = 0$ };
+            \node<3->[energy, above] at (Ship4.north) { $E = \frac{mv_2^2}{2} - G\frac{mM}{R}$ };
+          }
+        \end{tikzpicture}
+        \end{center}
+      \end{column}
+    \begin{column}{0.75\textwidth}
+        \begin{itemize}
+          \item<1-> Какая min $v$ нужна, чтобы улететь на $\infty$?
+          \item<2-> \alert{ИЛИ:} Какую $v$ будет иметь, упав с $\infty$?
+          \item<3-> Закон сохранения энергии:
+            \[
+              \frac{mv_2^2}{2} - G\frac{mM}{R} = 0
+            \]
+          \item<4-> Решая относительно $v_2$:
+            \[
+              v_2 = \sqrt{2G\frac{M}{R}}
+            \]
+        \end{itemize}
+      \end{column}
+    \end{columns}
+  \end{frame}
+
+  \begin{frame}{Гравитационный радиус в классической механике}
+    \begin{itemize}
+      \item<1-> Итак, вторая космическая скорость
+        \[
+          v_2 = \sqrt{2G\frac{M}{R}}
+        \]
+      \item<2-> Подставляя условие $v_2 < c$:
+        \[
+          c^2 < v_2^2 = 2G\frac{M}{R}
+        \]
+      \item<3-> Получаем для данной массы $M$ такой радиус, при котором ничто не сможет улететь:
+        \[
+          \boxed{
+            R < 2G\frac{M}{c^2}
+          }
+        \]
+
+      \begin{tikzpicture}[overlay]
+        \node<3->[shift={(-4cm, 1cm)}] at (current page.south east) {
+          \includegraphics[width=2.5cm]{muahaha}
+        };
+      \end{tikzpicture}
+    \end{itemize}
+  \end{frame}
+
+  \splashsection{История}
+
+  \begin{frame}{Основные этапы}
+    \begin{itemize}
+      \item<1> $1784\dots1915$\\--- Дж.\,Мичелл, расчёт массы для недоступного наблюдению объекта 
+      \item<2> $1915\dots1975$\\--- К.\,Шварцшильд, стационарное решение уравнений Эйнштейна (ОТО)
+      \item<3> $1975\dots$\\--- C.\,Хокинг, идея об излучении чёрных дыр
+    \end{itemize}
+  \end{frame}
+
+  \subsection{<<Чёрная звезда>> Мичелла}
+    
+  \begin{frame}{Джон Мичелл}
+    \begin{columns}[t]
+      \begin{column}{0.25\textwidth}
+        \begin{center}
+          \includegraphics[width=\textwidth]{michell-paper-001}\\
+          \includegraphics[width=\textwidth]{michell-paper-002}
+
+          \textbf{1724--1793}
+        \end{center}
+      \end{column}
+      \begin{column}{0.75\textwidth}
+        \begin{itemize}
+          \item<1-> Английский геофизик и астроном, занимался оптикой и гравитацией
+          \item<2-> В \alert{1784} высказал идею небесного тела, невидимого из-за того, что $v_2 > c$
+          \item<3-> Рассчитал, что таковым будет тело с $R = 100\cdot R_{\sun}$ и $\rho = \rho_{\sun}$
+          \item<4-> Сообщил о своей идее Лондонскому Королевскому Обществу.
+        \end{itemize}
+        \begin{center}
+          \vspace{5mm}
+          \includegraphics[width=1cm]{britain}
+        \end{center}
+      \end{column}
+    \end{columns}
+  \end{frame}
+    
+  \begin{frame}{Пьер-Сим\'{о}н Лаплас}
+    \begin{columns}[t]
+      \begin{column}{0.25\textwidth}
+        \begin{center}
+          \includegraphics[width=\textwidth]{laplace}\\
+          \textbf{1749--1827}
+        \end{center}
+      \end{column}
+      \begin{column}{0.75\textwidth}
+        \begin{itemize}
+          \item<1-> Выдающийся французский математик, физик и астроном
+          \item<2-> Известен работами в области небесной механики, дифференциальных уравнений, один из создателей теории вероятностей
+          \item<3-> \alert{Включил идеи Мичелла} в свой труд «Exposition du Systeme du Monde»
+          \item<4-> Потом убрал, но благодаря ему эта мысль \alert{получила известность}
+        \end{itemize}
+        \begin{center}
+          \includegraphics[width=1cm]{france}
+        \end{center}
+      \end{column}
+    \end{columns}
+  \end{frame}
+
+  \begin{frame}{После Мичелла}
+    \begin{itemize}
+      \item<1-> Поначалу идея \alert{не вызывала интереса}: в классической механике скорость света не
+        имеет фундаментального значения
+      \item<2-> В 1905 году Эйнштейн создаёт СТО на основе концепций Лоренца и Пуанкаре: в новой
+        механике $c$~--- предельная скорость
+      \item<3-> \alert{НО:} тогда и Ньютоновская теория тяготения, из которой мы вывели чёрные дыры,
+        тоже не верна \emph{(Ooops!)}
+      \item<4-> Нас спасёт \alert{общая теория относительности!} (ОТО)\\
+        \emph{Браво, Эйнштейн!}
+    \end{itemize}
+    \begin{tikzpicture}[overlay]
+      \node<4-> at (current page.south) {
+        \includegraphics[width=1.5cm]{applause}
+      };
+    \end{tikzpicture}
+  \end{frame}
+
+  \subsection{Чёрные дыры в общей теории относительности}
+
+  \begin{frame}{Уравнения Эйнштейна}
+    \begin{itemize}[<+->]
+      \item Теория гравитации Ньютона:
+        \[
+          F = G \frac{Mm}{r^2}
+        \]
+       \item Теория гравитации Эйнштейна:
+         \[
+           R_{ab} - \frac{R}{2}  g_{ab} + \Lambda g_{ab} = \frac{8 \pi G}{c^4} T_{ab}
+         \]
+    \end{itemize}
+    \begin{flushright}
+      \only<1>{\includegraphics[height=3cm]{cereal-guy-1}}
+      \only<2>{\includegraphics[height=3cm]{cereal-guy-2}}
+    \end{flushright}
+    
+  \end{frame}
+
+  \begin{frame}{Решение Шварцшильда}
+    \begin{itemize}
+      \item<1-> Изолированная невращающаяся, незаряженная и не испаряющаяся чёрная дыра
+      \item<2-> Горизонт событий — это сфера, радиус которой называется гравитационным радиусом или радиусом Шварцшильда
+      \[
+        \boxed{
+          r_s = 2G\frac{M}{c^2}
+        }
+      \]
+    \item<3-> \alert{Совпадает} с классическим результатом!
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{Радиус Шварцшильда}
+    Значения $r_s$ для типичных масс:
+    \begin{eqnarray*}
+      M = M_{\text{земли}} = 5,972\cdot 10^{24} \text{ кг} & \Rightarrow r_s = 9 \text{ мм} \\
+      M = M_{\sun} = 1,989\cdot 10^{30} \text{ кг} & \Rightarrow r_s = 3 \text{ км}
+    \end{eqnarray*}
+    \begin{block}{Вывод}<2->
+      Вещество в чёрной дыре должно быть \alert{очень плотным}.
+    \end{block}
+  \end{frame}
+
+  \begin{frame}{Стивен Хокинг}
+    \begin{columns}[t]
+      \begin{column}{0.25\textwidth}
+        \begin{center}
+          \includegraphics[width=\textwidth]{hawking}\\
+          \textbf{1942--...}
+        \end{center}
+      \end{column}
+      \begin{column}{0.75\textwidth}
+        \begin{itemize}
+          \item<1-> Один из наиболее влиятельных и известных физиков-теоретиков и космологов
+          \item<2-> Применил термодинамику к описанию чёрных дыр
+          \item<3-> Разработал в 1975 г. теорию о том, что чёрные дыры «испаряются»: \alert{излучение Хокинга}
+          \item<4-> В 2004 году показал, что чёрная дыра искажает
+            проглоченную информацию, но не разрушает её бесследно.
+        \end{itemize}
+        \begin{center}
+          \includegraphics[width=1cm]{britain}
+        \end{center}
+      \end{column}
+    \end{columns}
+  \end{frame}
+
+  \begin{frame}{Что дальше?}
+    \begin{itemize}
+      \item В теории ещё много открытых вопросов...
+        \begin{itemize}
+          \item Так всё-таки пропадает ли в них информация?
+          \item Какова структура вращающихся чёрных дыр?
+          \item Как влияет излучение Хокинга на горизонт событий?
+          \item Могут ли они помочь путешествовать в пространстве и времени?
+          \item Что будет, если две чёрные дыры столкнутся?
+          \item Чем заканчивается испарение чёрной дыры?
+        \end{itemize}
+      \item А пока~--- перейдём к практике!
+    \end{itemize}
+  \end{frame}
+
+  \splashsection{Практика}
+
+  \subsection{Наблюдение чёрных дыр}
+
+  \begin{frame}{Как увидеть чёрную дыру?}
+    \begin{itemize}
+      \item<1-> Можно рассчитать каким-либо способом массу и радиус объекта и понять, является ли он
+        чёрной дырой
+      \item<2-> Но можно ли её именно \alert{увидеть}?
+        \begin{itemize}
+          \item<3-> Гравитационное линзирование~--- искривление пространства преломляет путь света
+          \item<4-> Аккреция~--- при поглощении вещества дырой происходит сильное излучение в
+            рентгеновском диапазоне (не путать со слабым \emph{и гипотетическим} излучением Хокинга)
+        \end{itemize}
+    \end{itemize}
+  \end{frame}
+
+  %\begin{frame}{Гравитационное линзирование}
+  %  ...
+  %\end{frame}
+
+  %\begin{frame}{Аккреция}
+  %  ...
+  %\end{frame}
+
+  \begin{frame}{Заключение}
+    \begin{block}{Вывод}
+      Теория чёрных дыр содержит много запутанных вещей, и понять её чрезвычайно сложно
+      
+      \vspace{1cm}
+
+      Зато с практикой гораздо проще: уже с современными технологиями можно наблюдать чёрную дыру
+    \end{block}
+  \end{frame}
+
+  \begin{frame}[plain]
+    \begin{center}
+      { \Huge Спасибо за внимание! }
+
+      \vspace{1cm}
+
+      Иван Новиков\\
+      \url{http://about.me/moonlighter}\\
+      \href{mailto:nia.afti@gmail.com}{\nolinkurl{nia.afti@gmail.com} }
+      
+    \end{center}
+  \end{frame}
+
+\end{document}
+
