@@ -47,13 +47,21 @@
 
   \setbeamercovered{transparent}
 
-\title[Чёрные дыры]{Чёрные дыры}
+\title[Чёрные дыры]{
+  \texorpdfstring{
+    %\newcounter{cntOpacity}
+    \begin{tikzpicture}[scale=0.9]
+      \foreach \x in {0, ..., 6}
+        \shade[shading=ball, ball color=black] (2.5*\x - 0.15*\x*\x, 0) circle (1-\x*0.15);
+    \end{tikzpicture}
+    \\
+  }{}Чёрные дыры
+}
 \author[Иван Новиков]{
   Новиков Иван Александрович\texorpdfstring{
     \\
-    \vspace{0.5cm}
-    \small 1 курс магистратуры ФТФ,\\
-           Физика / инф. пр. и сист.
+    \vspace{0.3cm}
+    \small 1 курс магистратуры ФТФ, напр. Физика
   }{
     - КубГУ, ФТФ, 1 курс магистратуры
   }
@@ -283,6 +291,29 @@
     
   \end{frame}
 
+  \begin{frame}{Карл Шварцшильд}
+    \begin{columns}[t]
+      \begin{column}{0.25\textwidth}
+        \begin{center}
+          \includegraphics[width=\textwidth]{schwarzschild}\\
+          \textbf{1873--1916}
+        \end{center}
+      \end{column}
+      \begin{column}{0.75\textwidth}
+        \begin{itemize}
+          \item Немецкий астроном и физик, профессор Гёттингенского университета, директор астрофизической обсерватории в~Потсдаме
+          \item Ещё до появления ОТО исследует возможность того, что пространство является неевклидовым
+          \item Заболел на фронте смертельной болезнью, в госпитале написал две статьи по ОТО и
+            фундаментальную работу по квантовой теории Бора~--- Зоммерфельда
+
+        \end{itemize}
+        \begin{center}
+          \includegraphics[width=1cm]{germany}
+        \end{center}
+      \end{column}
+    \end{columns}
+  \end{frame}
+
   \begin{frame}{Решение Шварцшильда}
     \begin{itemize}[<+->]
       \item Изолированная невращающаяся, незаряженная и не испаряющаяся чёрная дыра
@@ -382,7 +413,7 @@
         \tikzstyle{object} = [star, star points=4, star point ratio=2, draw=white, fill=yellow!20!white]
         \tikzstyle{lens}   = [circle, shade=ball, ball color=black, minimum size=7mm, text=white]
         \tikzstyle{planet} = [circle, shade=ball, ball color=cyan, minimum size=4mm, text=black]
-        \tikzstyle{ray}    = [->, yellow!10!white, thick]
+        \tikzstyle{ray}    = [->, yellow!20!white, thick]
         \tikzstyle{imaginary} = [loosely dashed, fill opacity = 0.4]
 
         \node[object] (Star)  at (0,0) {};
