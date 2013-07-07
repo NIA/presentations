@@ -1,0 +1,138 @@
+\documentclass[a4paper, 12pt]{article}
+  \usepackage{cmap}
+  \usepackage[unicode]{hyperref}
+  \usepackage[T2A]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{graphicx}
+    \graphicspath{{../img/}{../../img/}}
+  \usepackage[usenames,dvipsnames]{xcolor}
+  \usepackage[left=20mm,right=15mm,top=20mm,bottom=20mm,bindingoffset=0cm]{geometry}
+  \usepackage[protrusion=true,expansion]{microtype}
+  \usepackage{enumitem}
+    \setlist{nolistsep} % Убираем отступы в списке
+  \usepackage[compact]{titlesec}  % Контроль заголовков:
+    \titlespacing{\section}{0pt}{0pt}{0pt} % - без отступов
+    \titleformat*{\subsubsection}{\bfseries\itshape} % - subsubsection курсивом
+
+  \setlength\parindent{0pt} % Убираем абзацный отступ
+  \pagestyle{empty} % Убираем номера страниц
+
+  % обёртка для списка пар "поле:значение" (например, пол:мужской),
+  % используется в комплекте с командой \field
+  % (текущая реализация через tabular, но может быть легко изменена)
+  % TODO действительно, попробовать сделать через description как в http://tex.stackexchange.com/q/33817/24732
+  \newenvironment{fieldset}%
+    {\begin{tabular}{ll}}%
+    {\end{tabular}}
+  % пара "поле:значение" внутри \begin{fieldset}, например \field{Пол}{мужской}
+  % (текущая реализация через строку в таблице и добавление двоеточия, но может быть легко изменена)
+  \newcommand{\field}[2]{ #1: & #2 \\ }
+
+  % участок с отступом слева
+  \newenvironment{indented}%
+    { \begingroup %
+        \noindent %
+        \leftskip1em}%
+    { \par\endgroup }
+
+  % запись об образовании. Четыре последовательных параметра:
+  % #1 - название вуза, факультета, кафедры
+  % #2 - годы обучения
+  % #3 - результат (степень, награды и т.п.), может быть пустым
+  % #4 - средний балл (число, например 4.5)
+  \newcommand{\education}[4]{
+    \par\emph{#1}
+
+    \begin{indented}
+      #2. #3\\
+      Cumulative Grade Point Average: #4 out of 5.
+    \end{indented}
+    \vspace{1mm} % TODO переопределить в терминах parskip или типа того
+  }
+
+  % Установка полей author и title
+  \newcommand{\thetitle}{Resume}
+  \newcommand{\theauthor}{Ivan Novikov}
+  \newcommand{\themail}{nia.afti@gmail.com}
+  \author{\theauthor}
+  \title{\thetitle}
+  \hypersetup{
+    colorlinks=true, % true: раскрашивать саму ссылку, а не рисовать
+    urlcolor=Blue,
+    pdfinfo={
+      Title = {\thetitle},
+      Author = {\theauthor (\themail)},
+      Subject = {}
+    }
+  }
+
+\begin{document}
+
+  \begin{minipage}[h]{0.8\linewidth}
+    \section*{\theauthor}
+
+    \begin{fieldset}
+      \field{Date of birth} {14 December 1990}
+      \field{Gender}        {male}
+      \field{Marital status}{single}
+      \field{Address}       {16 Nevkipelogo St., apt. 177, Krasnodar, Russia}
+      \field{Phone}         {+7 960 4-789-879}
+      \field{E-mail}        {\href{mailto:\themail}{\nolinkurl{\themail}}}
+    \end{fieldset}
+  \end{minipage}
+  \begin{minipage}[h]{0.19\linewidth}
+    \includegraphics[width=3cm]{photo}
+  \end{minipage}
+
+  \subsection*{Education}
+
+  \education{Kuban State University, Faculty of Physics and Technology, Informational processes and systems}
+            {2012 — present}{2\textsuperscript{nd} year Master student}{5.0}
+  \education{Novosibirsk State University, Physics Department, Physicotechnical Research Automation chair}
+            {2007 — 2011}{Bachelor of Science in Physics, diploma with honours degree}{5.0}
+  \education{``Physics and Mathematics School'' (Specialized Educational Scientific Center of NSU)}
+            {2005 — 2007}{Finished with Silver Medal}{4.9}
+
+  English level: fluent, experienced in reading technical literature and documentation.
+
+  \subsection*{Skills}
+
+  Programming languages:
+  \begin{itemize} % TODO полностью отключённые отступы выглядят плотновато, попытаться увеличить немного (TODO как?)
+    \item[--] С, С++, Java (have been learning and using for a long time);
+    \item[--] Ruby, Python, SQL (used in some study and homebrew projects);
+    \item[--] C\#, Scala (superficially acquainted, still learning).
+  \end{itemize}
+
+  Used different version control systems (Git, Subversion, Mercurial), relational database
+  management systems (MySQL, PostgreSQL), web development frameworks (Ruby on Rails, Rack, Play).
+
+  \subsection*{Software development experience}
+
+  \subsubsection*{``Personal medical manager''}
+  \begin{description}[labelindent=1em]
+    \item[Position:] software engineer
+    \item[Company:] NPF Mezon LLC, October 2012 — present (\url{http://mezon-kuban.ru})
+    \item[Description:] Web application to organize medical information and communicate with doctors
+    \item[Technologies and tools:] Java, Play Framework, PostgreSQL; IntelliJ IDEA, GitHub
+  \end{description}
+
+  \subsubsection*{UGENE Assembly Browser}
+  \begin{description}[labelindent=1em]
+    \item[Position:] software engineer
+    \item[Company:] UniPro, July 2011 — May 2012 (\url{http://unipro.ru/eng})
+    \item[Description:] visualization of huge amounts of data in an open-source bioinformatics suite
+    \item[Website:] \url{http://ugene.unipro.ru}
+    \item[Technologies and tools:] C++, Qt, sqlite; Qt Creator, Subversion, JIRA, JetBrains TeamCity
+  \end{description}
+
+  \subsubsection*{Bachelor's degree project}
+  \begin{description}[labelindent=1em] % TODO копипаста стиля, разобраться с этим
+    \item[Topic:] ``Modeling plastic deformations of body in real-time''
+    \item[Company:] SoftLab-NSK, March 2010 — June 2011 (\url{http://softlab-nsk.com})
+    \item[Description:] a library to be integrated into a computer game or a virtual reality application
+    \item[Source code:] \url{https://github.com/NIA/crash-and-squeeze}
+    \item[Technologies and tools:] C++, DirectX; Google Test, Redmine, Visual Studio, Git
+  \end{description}
+
+\end{document}
