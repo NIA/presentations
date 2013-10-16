@@ -1,0 +1,166 @@
+% Отключаем subsection!
+\PassOptionsToPackage{subsection=false}{beamerouterthememiniframes}
+\documentclass[usenames,dvipsnames,pdftex,unicode,hidelinks]{beamer}
+  \usepackage{cmap}
+  \usepackage[T2A]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage[english,russian]{babel}
+  \usepackage{wasysym}
+  \usepackage{mathtext} % для кириллицы в формулах
+    \DeclareSymbolFont{T2Aletters}{T2A}{cmr}{m}{it} % кириллица в формулах курсивом
+
+  \usepackage{tikz}
+    \usetikzlibrary{positioning,fit,backgrounds}
+  \graphicspath{{../img/}{../../img/}}
+
+  % add frame number to footline
+  \let\oldmacro\insertshorttitle
+  \renewcommand*\insertshorttitle{
+    \oldmacro\hfill
+    -\,\insertframenumber\,- % TODO: temporary comment total count % \,/\,\inserttotalframenumber
+  }
+
+  % hide navigation symbols
+  \beamertemplatenavigationsymbolsempty
+
+  \usetheme{Szeged}%{Warsaw}
+  \usecolortheme{seahorse}
+  \usefonttheme{structurebold}
+  \useinnertheme{rounded}
+  % Патчим некоторые цвета
+  %\setbeamertemplate{background canvas}[vertical shading][bottom=black!60!blue,top=black!80!blue]
+  \setbeamercolor{block title}{bg=title.bg}
+  \setbeamercolor{block body}{bg=title.bg!60}
+
+  \setbeamercovered{transparent}
+
+  \newcommand{\muted}[1]{\textcolor{gray}{#1}}
+
+  \newcommand{\vect}[1]{\vec{#1}} % единое выделение векторов (стрелкой)
+  \newcommand{\matx}[1]{\mathbf{#1}} % единое выделение матриц (полужирным)
+  \newcommand{\transposed}{\top} % единый знак транспонирования (U+22A4 down tack)
+  \newcommand{\conj}[1]{#1^*} % единое обозначение комплексного сопряжения (черта сверху)
+  \renewcommand{\le}{\leqslant} % <= с наклонной нижней перекладиной
+  \renewcommand{\ge}{\geqslant} % >= с наклонной нижней перекладиной
+  \renewcommand{\phi}{\varphi} % phi завитушкой
+
+  \newcommand{\todo}[1]{\textbf{\textcolor{red}{TODO: #1}}}
+
+\title[Система моделирования деформаций биологических объектов]{Информационная система моделирования динамики пластических деформаций биологических объектов}
+\author[Иван Новиков]{Новиков Иван Александрович}
+
+\institute{Кубанский Государственный Университет}
+
+\date{ 23 октября 2013 г. }
+
+\begin{document}
+  
+  % Local background must be enclosed by curly braces for grouping.
+  {
+    \usebackgroundtemplate{
+      \newcounter{cntShader}
+      \begin{tikzpicture}[show background rectangle, inner frame sep=2mm, background rectangle/.style={ draw=none }]
+        \foreach \x in {-4, ..., 21} {
+          \foreach \y in {-3, ..., 15} {
+            \pgfmathsetcounter{cntShader}{ 500 / (abs(\x) + 1) / (abs(\y) + 1)}
+            \shade[shading=radial,inner color = blue!\thecntShader] (\x*0.5, \y*0.5) circle (0.1);
+          }
+        }
+      \end{tikzpicture}
+    }
+    \begin{frame}[plain]
+      \titlepage
+    \end{frame}
+  }
+
+  \section{Постановка задачи}
+  \subsection{Постановка задачи} % NB: subsection отключены! Эти имена не будут отображаться
+  \begin{frame}{Моделирование деформаций}
+    \todo{(здесь будет о том, что такое моделирование деформаций и зачем. Картинки)}
+  \end{frame}
+  \begin{frame}{Моделирование в реальном времени}
+    \todo{(о том, что мы в данном случае понимаем под реальным временем, и что это даёт)}
+  \end{frame}
+
+  \begin{frame}{Актуальность}
+    \todo{Это актуально так как:}
+    \begin{itemize}
+      \item \todo{причина}
+      \item \todo{причина}
+      \item Отечественных аналогов нет
+    \end{itemize}
+    
+    Недостатки зарубежных аналогов (ANSYS, DEFORM-3D)
+    \begin{itemize}
+      \item недостаточная скорость для реального времени
+      \item актуальность
+      \item актуальность
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{Цель}
+    \begin{block}{Цель проекта}
+      Разработка программной системы, осуществляющей моделирование пластических деформаций
+      биологических объектов в реальном времени, которая может быть использована как отдельно, так и
+      в качестве модуля для встраивания в стороннее приложение.
+    \end{block}
+    Задачи:
+    \begin{enumerate}
+      \item \todo{задача}
+      \item \todo{задача}
+      \item \todo{задача}
+    \end{enumerate}
+  \end{frame}
+
+  \section{Содержание проекта}
+  \subsection{Содержание проекта}
+  \begin{frame}{Научная основа}
+
+  \end{frame}
+
+  \begin{frame}{Имеющийся задел}
+
+  \end{frame}
+
+  \begin{frame}{Потенциальные заказчики}
+
+  \end{frame}
+
+  \begin{frame}{Коммерциализация}
+
+  \end{frame}
+
+  \section{План проекта}
+  \subsection{План проекта}
+  \begin{frame}{План}
+
+  \end{frame}
+
+  \begin{frame}{Перспективы и риски}
+
+  \end{frame}
+
+  \begin{frame}{Ожидаемый результат}
+
+  \end{frame}
+
+
+  % Заканчиваем последний section, чтобы заключение, "спасибо" и запасные слайды к нему не
+  % относились и не отображались в навигации сверху
+  \section{}
+
+  \begin{frame}[plain]
+    \begin{center}
+      { \Huge Спасибо за внимание! }
+
+      \vspace{1cm}
+
+      Иван Новиков\\
+      \url{http://about.me/moonlighter}\\
+      \href{mailto:nia.afti@gmail.com}{\nolinkurl{nia.afti@gmail.com} }
+      
+    \end{center}
+  \end{frame}
+
+\end{document}
+
