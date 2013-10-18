@@ -13,6 +13,8 @@
     \usetikzlibrary{positioning,fit,backgrounds}
   \graphicspath{{../img/}{../../img/}}
 
+  \usepackage{transparent}
+
   % add frame number to footline
   \let\oldmacro\insertshorttitle
   \renewcommand*\insertshorttitle{
@@ -57,17 +59,18 @@
   
   % Local background must be enclosed by curly braces for grouping.
   {
-    \usebackgroundtemplate{
-      \newcounter{cntShader}
-      \begin{tikzpicture}[show background rectangle, inner frame sep=2mm, background rectangle/.style={ draw=none }]
-        \foreach \x in {-4, ..., 21} {
-          \foreach \y in {-3, ..., 15} {
-            \pgfmathsetcounter{cntShader}{ 500 / (abs(\x) + 1) / (abs(\y) + 1)}
-            \shade[shading=radial,inner color = blue!\thecntShader] (\x*0.5, \y*0.5) circle (0.1);
-          }
-        }
-      \end{tikzpicture}
-    }
+    % TODO другой клёвый background
+    %\usebackgroundtemplate{
+    %  \newcounter{cntShader}
+    %  \begin{tikzpicture}[show background rectangle, inner frame sep=2mm, background rectangle/.style={ draw=none }]
+    %    \foreach \x in {-4, ..., 21} {
+    %      \foreach \y in {-3, ..., 15} {
+    %        \pgfmathsetcounter{cntShader}{ 500 / (abs(\x) + 1) / (abs(\y) + 1)}
+    %        \shade[shading=radial,inner color = blue!\thecntShader] (\x*0.5, \y*0.5) circle (0.1);
+    %      }
+    %    }
+    %  \end{tikzpicture}
+    %}
     \begin{frame}[plain]
       \titlepage
     \end{frame}
@@ -75,51 +78,106 @@
 
   \section{Постановка задачи}
   \subsection{Постановка задачи} % NB: subsection отключены! Эти имена не будут отображаться
-  \begin{frame}{Моделирование деформаций}
-    \todo{(здесь будет о том, что такое моделирование деформаций и зачем. Картинки)}
+  \begin{frame}{Применения моделирования деформаций}
+    % Уменьшаем margin сверху (см. http://tex.stackexchange.com/a/73522/24732)
+    \vspace{-2\baselineskip}
+    \begin{columns}[c]
+      \begin{column}{0.5\textwidth}<-1>
+        \begin{center}
+          Компьютерные игры
+          \only<1>{ \includegraphics[height=0.3\textheight]{game} }
+          % TODO честная полупрозрачность
+          \only<2>{ \includegraphics[height=0.3\textheight]{game-phantom} }
+
+          Спецэффекты в кино
+
+          \only<1>{ \includegraphics[height=0.3\textheight]{movie} }
+          % TODO честная полупрозрачность
+          \only<2>{ \includegraphics[height=0.3\textheight]{movie-phantom} }
+        \end{center}
+      \end{column}
+      \begin{column}{0.5\textwidth}<-2>
+        \begin{center}
+          Обучающие тренажёры
+
+          \includegraphics[height=0.3\textheight]{trainer}
+
+          Системы авт. проектирования
+
+          \includegraphics[height=0.3\textheight]{cad}
+        \end{center}
+      \end{column}
+    \end{columns}
   \end{frame}
   \begin{frame}{Моделирование в реальном времени}
-    \todo{(о том, что мы в данном случае понимаем под реальным временем, и что это даёт)}
+    В приложениях, связанных с визуализацией:
+    % TODO круговые диаграммки
+    \begin{enumerate}
+      \item Мягкое реальное время.
+      \item Комфорт пользователя: FPS $\ge 30$.
+      \item За $\Delta t \le 33$~мс --- \emph{все} расчёты очередного кадра.
+      \item На моделирование деформаций отводится $\Delta t' \approx 3..10$~мс.
+    \end{enumerate}
   \end{frame}
 
   \begin{frame}{Актуальность}
-    \todo{Это актуально так как:}
+    Разработка такой системы актуальна:
     \begin{itemize}
-      \item \todo{причина}
-      \item \todo{причина}
-      \item Отечественных аналогов нет
+      \item применение систем виртуальной реальности в~обучении;
+        % NB: сказать про перспективы 3D-печати тканей,органов...
+      \item потребность в САПР протезов, имплантантов;
+      \item отсутствие отечественных аналогов.
     \end{itemize}
+
+    \vspace{1cm}
     
-    Недостатки зарубежных аналогов (ANSYS, DEFORM-3D)
+    Недостатки зарубежных аналогов (ANSYS, DEFORM-3D):
     \begin{itemize}
-      \item недостаточная скорость для реального времени
-      \item актуальность
-      \item актуальность
+      \item не для моделированию биологических объектов;
+      \item нельзя применить к расчётам в реальном времени;
+      \item высокая цена.
     \end{itemize}
   \end{frame}
 
   \begin{frame}{Цель}
     \begin{block}{Цель проекта}
-      Разработка программной системы, осуществляющей моделирование пластических деформаций
-      биологических объектов в реальном времени, которая может быть использована как отдельно, так и
-      в качестве модуля для встраивания в стороннее приложение.
+      Разработка \alert{системы моделирования} пластических деформаций биологических объектов
+      \alert{в~реальном времени}, которая может быть использована как отдельно, так и в качестве
+      \alert{модуля} для встраивания в стороннее приложение.
     \end{block}
+
+    \vspace{0.5cm}
+
     Задачи:
     \begin{enumerate}
-      \item \todo{задача}
-      \item \todo{задача}
-      \item \todo{задача}
+      \item Разработка \textcolor{ForestGreen}{алгоритма} моделирования
+      \item Реализация \textcolor{ForestGreen}{его} в виде \textcolor{RoyalPurple}{программной библиотеки}
+      \item Разработка на \textcolor{RoyalPurple}{её} основе \textcolor{NavyBlue}{интерактивного приложения}
     \end{enumerate}
   \end{frame}
 
   \section{Содержание проекта}
   \subsection{Содержание проекта}
-  \begin{frame}{Научная основа}
-
+  \begin{frame}{Научная новизна}
+    \begin{enumerate}
+      \item Собственные наработки по моделированию деформаций:
+        \begin{itemize}
+          \item объединение физических методов с геометрическими;
+          \item разбиение 3D-модели на кластеры, подбор оптимального линейного преобразования для
+            каждого;
+          \item применение графического процессора.
+        \end{itemize}
+      \item Гибкий программный интерфейс (API).
+      \item Адаптация алгоритма к физическим свойствам биологических объектов.
+    \end{enumerate}
   \end{frame}
 
   \begin{frame}{Имеющийся задел}
+    \begin{center}
+      Работающий прототип
 
+      \includegraphics[height=0.7\textheight]{prototype}
+    \end{center}
   \end{frame}
 
   \begin{frame}{Потенциальные заказчики}
@@ -132,7 +190,7 @@
 
   \section{План проекта}
   \subsection{План проекта}
-  \begin{frame}{План}
+  \begin{frame}{Календарный план}
 
   \end{frame}
 
