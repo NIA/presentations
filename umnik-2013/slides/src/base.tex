@@ -115,11 +115,28 @@
     В приложениях, связанных с визуализацией:
     % TODO круговые диаграммки
     \begin{enumerate}
-      \item Мягкое реальное время.
+      \item \alert{Мягкое} реальное время.
       \item Комфорт пользователя: FPS $\ge 30$.
       \item За $\Delta t \le 33$~мс --- \emph{все} расчёты очередного кадра.
-      \item На моделирование деформаций отводится $\Delta t' \approx 3..10$~мс.
+      \item На моделирование деформаций отводится \alert{$\Delta t' \approx 3..10$~мс}.
     \end{enumerate}
+
+    \vspace{5mm}
+
+    \begin{center}
+      \begin{tikzpicture}[scale=1]
+        \fill[Gray!50] (0,0) circle (1);
+        \node at (0,0) {1 сек};
+
+        \fill[Gray!50] (3, 0) circle (1);
+        \fill[OliveGreen] (3, 0) -- +(0, 1) arc (90:78:1) -- cycle;
+        \node[below,OliveGreen] at (3,0) {33 мс};
+
+        \fill[OliveGreen] (6, 0) circle (1);
+        \fill[Red!50] (6, 0) -- +(0, 1) arc (90:54:1) -- cycle;
+        \node[below,Red!50] at (6,0) {3 мс};
+      \end{tikzpicture}
+    \end{center}
   \end{frame}
 
   \begin{frame}{Актуальность}
@@ -133,12 +150,14 @@
 
     \vspace{0.5cm}
     
+    \uncover<2->{
     Недостатки зарубежных аналогов (ANSYS, DEFORM-3D):
     \begin{itemize}
       \item не адаптированы для биологических объектов;
       \item нельзя применить к расчётам в реальном времени;
       \item высокая цена.
     \end{itemize}
+    }
   \end{frame}
 
   \begin{frame}{Цель}
@@ -162,11 +181,14 @@
   \subsection{Содержание проекта}
   \begin{frame}{Научная новизна}
     \begin{enumerate}
+      \setlength{\itemsep}{5mm}
       \item Собственные наработки по моделированию деформаций:
+
+        \hspace{7mm}\includegraphics[height=15mm]{meshless}
         \begin{itemize}
           \item объединение физических методов с геометрическими;
-          \item разбиение 3D-модели на кластеры, подбор оптимального линейного преобразования для
-            каждого;
+          % \item разбиение 3D-модели на кластеры, подбор оптимального линейного преобразования для каждого;
+          \item минимум ограничений на 3D-модель объекта
           \item применение графического процессора.
         \end{itemize}
       \item Гибкий программный интерфейс (API).
@@ -179,11 +201,12 @@
       \item Защищена квалификационная работа бакалавра по теме.
       \item Результаты опубликованы:
         \begin{itemize}
-          \item
-            Новиков,~И.А. Система моделирования деформаций неупругих тел в реальном времени~/
-            И.А.~Новиков, Д.А.~Гладкий~// Материалы XLIX Международной научной студенческой
+          \item {\scriptsize
+            И.А.~Новиков, Д.А.~Гладкий. Система моделирования деформаций неупругих тел в реальном времени~//
+            Материалы XLIX Международной научной студенческой
             конференции <<Студент и научно-технический прогресс>>, Физика. "--- Новосибирск~:
             Новосибирский государственный университет, 2011. "--- С.~12.
+          }
         \end{itemize}
       \item Создан работающий прототип системы.
     \end{enumerate}
@@ -198,7 +221,24 @@
   \end{frame}
 
   \begin{frame}{Потенциальные заказчики}
+    \begin{itemize}
+      \setlength{\itemsep}{5mm}
+      \item Учебные заведения
 
+        \foreach \name in {ksma, kubsu, kubstu} {
+          \hspace{5mm}\includegraphics[height=15mm]{\name}
+        }
+      \item Научные организации
+
+        \foreach \name in {ramn} {
+          \hspace{5mm}\includegraphics[height=10mm]{\name}
+        }
+      \item Разработчики САПР
+
+        \foreach \name in {nanocad, ascon, rusapr} {
+          \hspace{5mm}\includegraphics[height=10mm]{\name}
+        }
+    \end{itemize}
   \end{frame}
 
   \begin{frame}{Коммерциализация}
