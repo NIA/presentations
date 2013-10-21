@@ -13,13 +13,15 @@
     \usetikzlibrary{positioning,fit,backgrounds}
   \graphicspath{{../img/}{../../img/}}
 
-  \usepackage{transparent}
-
   % add frame number to footline
   \let\oldmacro\insertshorttitle
   \renewcommand*\insertshorttitle{
     \oldmacro\hfill
     -\,\insertframenumber\,- % TODO: temporary comment total count % \,/\,\inserttotalframenumber
+  }
+  % TODO HACK: вместо института выводим автора
+  \renewcommand*\insertshortinstitute{
+    \insertshortauthor
   }
 
   % hide navigation symbols
@@ -48,12 +50,12 @@
 
   \newcommand{\todo}[1]{\textbf{\textcolor{red}{TODO: #1}}}
 
-\title[Система моделирования деформаций биологических объектов]{Информационная система моделирования динамики пластических деформаций биологических объектов}
+\title[Система моделирования пластических деформаций биологических объектов]{Информационная система моделирования динамики пластических деформаций биологических объектов}
 \author[Иван Новиков]{Новиков Иван Александрович}
 
-\institute{Кубанский Государственный Университет}
+\institute{Н1: Информационные технологии}
 
-\date{ 23 октября 2013 г. }
+\date{ 2013 г. }
 
 \begin{document}
   
@@ -129,11 +131,11 @@
       \item отсутствие отечественных аналогов.
     \end{itemize}
 
-    \vspace{1cm}
+    \vspace{0.5cm}
     
     Недостатки зарубежных аналогов (ANSYS, DEFORM-3D):
     \begin{itemize}
-      \item не для моделированию биологических объектов;
+      \item не адаптированы для биологических объектов;
       \item нельзя применить к расчётам в реальном времени;
       \item высокая цена.
     \end{itemize}
