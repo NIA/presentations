@@ -235,10 +235,9 @@
         \item
           Программа ProcessData. Свидетельство о государственной регистрации программы
           для ЭВМ №2013612036 от 12.02.2013~г.
-        % TODO другая программа
         \item
-          Программа расчета концентрации носителей заряда в примесных полупроводниках.
-          Свидетельство о государственной регистрации программы для ЭВМ №2013616200 от 01.07.2013~г.
+          Программа графической визуализации и анализа данных медицинских измерений (свидетельство).
+          Свидетельство о государственной регистрации программы для ЭВМ №2013618780 от 18.09.2013~г.
       \end{enumerate}
     }
     Создан работающий прототип системы.
@@ -406,20 +405,32 @@
   \end{frame}
 
   \begin{frame}{Использование в обучении}
-    % TODO доделать диаграмму
-    \begin{tikzpicture}[scale=2]
+    \begin{tikzpicture}[scale=1.5]
       \tikzstyle{block} = [rectangle, draw=blue, rounded corners, fill=cyan!10,
-                           text centered, text width=2cm, font=\footnotesize, minimum height=4em]
-      \tikzstyle{mblck} = [block, minimum height=3em, draw=Green, fill=LimeGreen!30]
-      \tikzstyle{bblck} = [block, minimum height=3em, draw=RedOrange, fill=Red!10]
-      \tikzstyle{aux} = [text width=2cm]
-      \node[block] (root) {Высшее образование};
-      \node[aux]   (aux0) [right=0.7cm of root] {};
-      \node[mblck] (bio)  [above=0.1cm of aux0] {Биология};
-      \node[bblck] (med)  [below=0.1cm of aux0] {Медицина};
+                           text centered, text width=2.3cm, font=\footnotesize, minimum height=4em]
+      \tikzstyle{bblck} = [block, minimum height=3em, draw=Green, fill=LimeGreen!30]
+      \tikzstyle{tblck} = [block, minimum height=3em, draw=Plum, fill=BlueViolet!10]
+      \tikzstyle{mblck} = [block, minimum height=3em, draw=RedOrange, fill=Red!10]
+      \tikzstyle{last} = [text width=3cm, font=\scriptsize]
 
-      \draw[->, thick] (root) -- (bio);
-      \draw[->, thick] (root) -- (med);
+      \node[block] (root) {Высшее образование};
+      \node[tblck] (tech) [right=1.0cm of root] {Биотехнологии};
+      \node[bblck] (bio)  [above=0.3cm of tech] {Биология};
+      \node[mblck] (med)  [below=0.3cm of tech] {Медицина};
+
+      \node[bblck,last] (bio1) [right=1.0cm of bio]  {Моделирование тканей};
+      \node[bblck,last] (bio2) [above=0.2cm of bio1] {Механика движения};
+
+      \node[tblck,last] (tech1)[right=1.0cm of tech] {Имплантация, протезирование};
+
+      \node[mblck,last] (med1) [right=1.0cm of med]  {Моделирование органов в движении};
+      \node[mblck,last] (med2) [below=0.2cm of med1] {Моделирование воздействий на ткани};
+
+      \foreach \nd/\n in {bio/2,tech/1,med/2} {
+        \draw[->, thick] (root) -- (\nd);
+        \foreach \x in {1,...,\n}
+          \draw[->, thick] (\nd) -- (\nd\x);
+      }
     \end{tikzpicture}
   \end{frame}
 
