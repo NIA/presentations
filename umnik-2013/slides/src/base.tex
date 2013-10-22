@@ -13,6 +13,13 @@
     \usetikzlibrary{positioning,fit,backgrounds}
   \graphicspath{{../img/}{../../img/}}
 
+  \usepackage{numprint}
+    % алиас и настройки для numprint
+    \newcommand{\num}[1]{\numprint{#1}}
+    \npthousandsep{\,}
+    \npthousandthpartsep{}
+    \npdecimalsign{,}
+
   % add frame number to footline
   \let\oldmacro\insertshorttitle
   \renewcommand*\insertshorttitle{
@@ -58,7 +65,7 @@
 \date{ 2013 г. }
 
 \begin{document}
-  
+
   % Local background must be enclosed by curly braces for grouping.
   {
     % TODO другой клёвый background
@@ -113,7 +120,6 @@
   \end{frame}
   \begin{frame}{Моделирование в реальном времени}
     В приложениях, связанных с визуализацией:
-    % TODO круговые диаграммки
     \begin{enumerate}
       \item \alert{Мягкое} реальное время.
       \item Комфорт пользователя: FPS $\ge 30$.
@@ -151,7 +157,7 @@
     \end{itemize}
 
     \vspace{0.5cm}
-    
+
     \uncover<2->{
     Недостатки зарубежных аналогов (ANSYS, DEFORM-3D):
     \begin{itemize}
@@ -357,6 +363,7 @@
         реальном времени
       \item Программный модуль (библиотека), реализующий алгоритм, с гибким интерфейсом (API)
       \item Графическое приложение для запуска моделирования \\(на основе этой библиотеки)
+      \item \emph{(В перспективе)} Вспомогательные инструменты
     \end{itemize}
   \end{frame}
 
@@ -374,8 +381,61 @@
       Иван Новиков\\
       \url{http://about.me/moonlighter}\\
       \href{mailto:nia.afti@gmail.com}{\nolinkurl{nia.afti@gmail.com} }
-      
+
     \end{center}
+  \end{frame}
+
+  % Запасные слайды
+
+  \begin{frame}{Производительность}
+    \begin{center}
+      {
+        \tiny
+        Intel Core 2 Quad Q6660 2.4 GHz, NVIDIA GeForce 8800 GTX
+      }
+
+      \includegraphics[height=0.7\textheight]{time-plot}
+
+      {
+        \scriptsize
+        За \alert{3 мс}/кадр: до \alert{\num{6000}} физ. точек и до \alert{\num{200000}} отображаемых вершин
+      }
+    \end{center}
+  \end{frame}
+
+  \begin{frame}{Использование в обучении}
+    % TODO доделать диаграмму
+    \begin{tikzpicture}[scale=2]
+      \tikzstyle{block} = [rectangle, draw=blue, rounded corners, fill=cyan!10,
+                           text centered, text width=2cm, font=\footnotesize, minimum height=4em]
+      \tikzstyle{mblck} = [block, minimum height=3em, draw=Green, fill=LimeGreen!30]
+      \tikzstyle{bblck} = [block, minimum height=3em, draw=RedOrange, fill=Red!10]
+      \tikzstyle{aux} = [text width=2cm]
+      \node[block] (root) {Высшее образование};
+      \node[aux]   (aux0) [right=0.7cm of root] {};
+      \node[mblck] (bio)  [above=0.1cm of aux0] {Биология};
+      \node[bblck] (med)  [below=0.1cm of aux0] {Медицина};
+
+      \draw[->, thick] (root) -- (bio);
+      \draw[->, thick] (root) -- (med);
+    \end{tikzpicture}
+  \end{frame}
+
+  \begin{frame}{Другие области применения}
+    \begin{itemize}
+      \setlength{\itemsep}{5mm}
+      \item Компьютерное моделирование крэш-тестов
+        \begin{itemize}
+          \item Существующие системы моделируют только деформацию автомобиля
+        \end{itemize}
+
+      \item Компьютерные игры
+        \begin{itemize}
+          \item Отечественные производители игр пока сильно отстают от зарубежных
+        \end{itemize}
+
+      % TODO ещё варианты
+    \end{itemize}
   \end{frame}
 
 \end{document}
