@@ -68,18 +68,14 @@
 
   % Local background must be enclosed by curly braces for grouping.
   {
-    % TODO другой клёвый background
-    %\usebackgroundtemplate{
-    %  \newcounter{cntShader}
-    %  \begin{tikzpicture}[show background rectangle, inner frame sep=2mm, background rectangle/.style={ draw=none }]
-    %    \foreach \x in {-4, ..., 21} {
-    %      \foreach \y in {-3, ..., 15} {
-    %        \pgfmathsetcounter{cntShader}{ 500 / (abs(\x) + 1) / (abs(\y) + 1)}
-    %        \shade[shading=radial,inner color = blue!\thecntShader] (\x*0.5, \y*0.5) circle (0.1);
-    %      }
-    %    }
-    %  \end{tikzpicture}
-    %}
+    \usebackgroundtemplate{
+      \begin{tikzpicture}[show background rectangle, inner frame sep=-2mm, background rectangle/.style={ draw=none }]
+        \node (t) at (0,0) {};% HACK :(
+       \node[] at (0,-9) {
+         \includegraphics[width=8cm]{screen-big}
+       };
+      \end{tikzpicture}
+    }
     \begin{frame}[plain]
       \titlepage
     \end{frame}
