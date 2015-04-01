@@ -15,7 +15,7 @@
 
   \usepackage{numprint}
     % алиас и настройки для numprint
-    \newcommand{\num}[1]{\numprint{#1}}
+    \let\num\numprint
     \npthousandsep{\,}
     \npthousandthpartsep{}
     \npdecimalsign{,}
@@ -42,14 +42,19 @@
   %\setbeamertemplate{background canvas}[vertical shading][bottom=black!60!blue,top=black!80!blue]
   \setbeamercolor{block title}{bg=title.bg}
   \setbeamercolor{block body}{bg=title.bg!60}
+  % Добавляем "action environment" для смены цвета bullet'а одного item'а (http://tex.stackexchange.com/a/14366/24732)
+  \newenvironment{newenv}{\only{\setbeamercolor{item}{fg=red}}}{}
+  \newenvironment{doneenv}{\only{\setbeamercolor{item}{fg=OliveGreen}}}{}
+  \newcommand{\done}{\textcolor{OliveGreen}{\textbf{\checked}}}
 
   \setbeamercovered{transparent}
 
   \newcommand{\muted}[1]{\textcolor{gray}{#1}}
+  \let\softalert\textbf  % более мягкий alert, чем выделение красным цветом
 
-  \newcommand{\vect}[1]{\vec{#1}} % единое выделение векторов (стрелкой)
-  \newcommand{\matx}[1]{\mathbf{#1}} % единое выделение матриц (полужирным)
-  \newcommand{\transposed}{\top} % единый знак транспонирования (U+22A4 down tack)
+  \let\vect\vec    % единое выделение векторов (стрелкой)
+  \let\matx\mathbf % единое выделение матриц (полужирным)
+  \let\transposed\top % единый знак транспонирования (U+22A4 down tack)
   \newcommand{\conj}[1]{#1^*} % единое обозначение комплексного сопряжения (черта сверху)
   \renewcommand{\le}{\leqslant} % <= с наклонной нижней перекладиной
   \renewcommand{\ge}{\geqslant} % >= с наклонной нижней перекладиной
@@ -60,9 +65,9 @@
 \title[Система моделирования пластических деформаций биологических объектов]{Информационная система моделирования динамики пластических деформаций биологических объектов}
 \author[Иван Новиков]{Новиков Иван Александрович}
 
-\institute{Н1: Информационные технологии}
+\institute{Н1: Информационные технологии. \textbf{2\textsuperscript{й} год}}
 
-\date{ 2013 г. }
+\date{ \the\year{} г. }
 
 \begin{document}
 
@@ -73,6 +78,9 @@
         \node (t) at (0,0) {};% HACK :(
        \node[] at (0,-9) {
          \includegraphics[width=8cm]{screen-big}
+       };
+       \node[] at (0, -8) {
+         \todo{Свежий скриншот!}
        };
       \end{tikzpicture}
     }
@@ -119,7 +127,7 @@
     \begin{enumerate}
       \item \alert{Мягкое} реальное время.
       \item Комфорт пользователя: FPS $\ge 30$.
-      \item За $\Delta t \le 33$~мс --- \emph{все} расчёты очередного кадра.
+      \item За $\Delta t \le 33$~мс --- \alert{все} расчёты очередного кадра.
       \item На моделирование деформаций отводится \alert{$\Delta t' \approx 3..10$~мс}.
     \end{enumerate}
 
@@ -146,19 +154,19 @@
   \begin{frame}{Актуальность}
     Разработка такой системы актуальна:
     \begin{itemize}
-      \item применение систем виртуальной реальности в~обучении;
+      \item применение систем виртуальной реальности \alert{в~обучении};
         % NB: сказать про перспективы 3D-печати тканей,органов...
-      \item потребность в САПР протезов, имплантатов;
-      \item отсутствие отечественных аналогов.
+      \item потребность в \alert{САПР} протезов, имплантатов;
+      \item отсутствие \alert{отечественных} аналогов.
     \end{itemize}
 
     \vspace{0.5cm}
 
     \uncover<2->{
-    Недостатки зарубежных аналогов (ANSYS, DEFORM-3D):
+    Недостатки зарубежных (ANSYS, DEFORM-3D, COMSOL):
     \begin{itemize}
-      \item не адаптированы для биологических объектов;
-      \item нельзя применить к расчётам в реальном времени;
+      \item не адаптированы для \alert{биологических} объектов;
+      \item нельзя применить к расчётам в \alert{реальном} времени (на PC);
       \item высокая цена.
     \end{itemize}
     }
@@ -179,6 +187,7 @@
       \item Разработка \textcolor{ForestGreen}{алгоритма} моделирования
       \item \textcolor{ForestGreen}{Его} реализация в виде \textcolor{RoyalPurple}{программной библиотеки}
       \item Разработка на \textcolor{RoyalPurple}{её} основе \textcolor{NavyBlue}{интерактивного приложения}
+      \item<new@1-> Интеграция с 3D-редактором
     \end{enumerate}
   \end{frame}
 
@@ -186,66 +195,41 @@
   \subsection{Содержание проекта}
   \begin{frame}{Научная новизна}
     \begin{enumerate}
-      \setlength{\itemsep}{5mm}
-      \item Собственные наработки по моделированию деформаций:
+      \setlength{\itemsep}{4mm}
+      \item Производительный алгоритм моделирования деформаций:
 
-        \hspace{7mm}\includegraphics[height=15mm]{meshless}
+        \includegraphics[height=15mm]{meshless}\\[-2mm]
+        {
+          \tiny \textcopyright{} \href{http://dx.doi.org/10.1145/1186822.1073216}{M.\,M\"{u}ller et al. Meshless deformations based on shape matching}
+        }
         \begin{itemize}
-          \item объединение физических методов с геометрическими;
-          % \item разбиение 3D-модели на кластеры, подбор оптимального линейного преобразования для каждого;
-          \item минимум ограничений на 3D-модель объекта
-          \item применение графического процессора.
+          \item объединение физических методов с \alert{геометрическими};
+          \item \alert{минимум ограничений} на 3D-модель объекта
+          \item применение графического процессора (\alert{GPU}).
         \end{itemize}
-      \item Гибкий программный интерфейс (API).
-      \item Адаптация алгоритма к физическим свойствам биологических объектов.
+      \item \alert{Гибкий} программный интерфейс (API).
+      \item Простота \alert{конфигурации}.
     \end{enumerate}
   \end{frame}
 
-  \begin{frame}{Созданный задел}
-    Публикации:
-    {
-      \scriptsize
-      \begin{enumerate}
-        \item
-          \textbf{И.А.~Новиков}, Д.А.~Гладкий. Система моделирования деформаций неупругих тел в реальном времени~//
-          Материалы XLIX МНСК <<Студент и научно-технический прогресс>>, Физика. --- Новосибирск:
-          НГУ, 2011.
-        \item
-          \textbf{I.A~Novikov}, M.Y~Fursov, I.E.~Efremov. UGENE Assembly Browser: a tool for NGS data
-          visualization~// Abstracts of VIII BGRS. "--- Novosibirsk, 2012.
-        \item
-          Л.Р.~Григорьян, \textbf{И.А.~Новиков}. Информационная система обработки прецизионных сигналов~//
-          Коллективная монография. Современные проблемы физики, биофизики и инфокоммуникационных технологий.
-          --- Краснодар: ЦНТИ, 2013. С. 185 - 198.
-        %\item
-        %  \textbf{И.А.~Новиков}, Л.Р.~Григорьян. Информационная система
-        %  обработки прецизионных сигналов~// Современное состояние и приоритеты развития
-        %  фундаментальных наук в регионах. Труды X Всероссийской научной конференции
-        %  молодых ученых и студентов. "--- Краснодар, 2013
-      \end{enumerate}
-    }
-    Интеллектуальная собственность:
-    {
-      \scriptsize
-      \begin{enumerate}
-        \item
-          Программа ProcessData. Свидетельство о государственной регистрации программы
-          для ЭВМ №2013612036 от 12.02.2013~г.
-        \item
-          Программа графической визуализации и анализа данных медицинских измерений.
-          Свидетельство о государственной регистрации программы для ЭВМ №2013618780 от 18.09.2013~г.
-      \end{enumerate}
-    }
-    Создан работающий прототип системы.
-  \end{frame}
+  \begin{frame}{Назначение}
+    Две формы продукта:
 
-  \begin{frame}{Работающий прототип}
-    \begin{center}
-      \only<1>{ 1. До удара \\ \includegraphics[height=0.7\textheight]{screen-0} }
-      % TODO более сильная деформация
-      \only<2>{ 2. Вскоре после удара \\ \includegraphics[height=0.7\textheight]{screen-1} }
-      \only<3>{ 3. После удара \\ \includegraphics[height=0.7\textheight]{screen-2} }
-    \end{center}
+    \begin{enumerate}
+      \setlength{\itemsep}{5mm}
+      \item Модуль для встраивания в стороннее приложение
+        \begin{itemize}
+          \item Используется разработчиком (в более крупной системе)
+          \item Предоставляет ей функции моделирования деформаций
+        \end{itemize}
+        \softalert{Основные потребители}: разработчики САПР
+      \item Автономное приложение \textcolor{Gray}{(основанное на этой библиотеке)}
+        \begin{itemize}
+          \item Используется конечным пользователем
+          \item Может применяться для обучения
+        \end{itemize}
+        \softalert{Основные потребители}: высшие учебные заведения
+    \end{enumerate}
   \end{frame}
 
   \begin{frame}{Потенциальные заказчики}
@@ -258,7 +242,7 @@
         }
       \item Научные организации
 
-        \foreach \name in {ramn} {
+        \foreach \name in {ramn, sbras} {
           \hspace{5mm}\includegraphics[height=10mm]{\name}
         }
       \item Разработчики САПР
@@ -269,88 +253,43 @@
     \end{itemize}
   \end{frame}
 
-  \begin{frame}{Коммерциализация}
-    Две формы продукта:
-
-    \begin{enumerate}
-      \setlength{\itemsep}{5mm}
-      \item Модуль для встраивания в стороннее приложение
-        \begin{itemize}
-          \item Основные потребители: разработчики САПР
-          \item Примерный объем рынка: 50--100 лицензий
-          \item Стоимость лицензии: $\approx 300$ тыс. руб.
-        \end{itemize}
-      \item Автономное приложение \textcolor{Gray}{(основанное на этой библиотеке)}
-        \begin{itemize}
-          \item Основные потребители: высшие учебные заведения
-          \item Примерный объем рынка: 1000--2000 лицензий
-          \item Стоимость лицензии: $\approx 15$ тыс. руб.
-        \end{itemize}
-    \end{enumerate}
-  \end{frame}
-
   \section{План проекта}
   \subsection{План проекта}
   \begin{frame}{Календарный план}
     1\textsuperscript{й} год:
     \begin{enumerate}
-      \item Разработка алгоритма моделирования деформаций.
-      \item Создание библиотеки, реализующей алгоритм.
-      \item Тестирование, в т.\,ч. на 3D-моделях реальных объектов.
-      \item Разработка графического интерфейса приложения.
+      \item<done@1-> Разработка ядра системы \done
+        \begin{itemize}
+          \item Алгоритм моделирования деформаций. \done
+          \item Программный интерфейс (API) \done
+        \end{itemize}
+      \item<done@1-> Разработка графической оболочки \done
+        \begin{itemize}
+          \item Графический 3D-движок \done
+          \item Пользовательский интерфейс (GUI) \done
+        \end{itemize}
     \end{enumerate}
     \uncover<2->{
-      Дальнейшее развитие:
+      2\textsuperscript{й} год:
       \begin{itemize}
-        \item Оптимизация, более глубокое использование GPU
-        \item Разработка дополнительных инструментов
-          \par{
-            \scriptsize
-            (конвертация из различных форматов 3D-моделей,\\
-            задание физических свойств прямо в 3D-редакторе и т.\,п.)
-          }
-        \item Поддержка возможности расширения системы
-          \par{
-            \scriptsize
-            (добавление новых алгоритмов, обработчиков событий и т.\,п.)
-          }
+        \item Совершенствование алгоритма моделирования
+        \item Более полное использование параллельных вычислений
+        \item Расширение функций GUI
+        \item Интеграция с 3D-редакторами
       \end{itemize}
     }
   \end{frame}
 
-  \begin{frame}{Перспективы и риски}
-    Перспективы:
-    \begin{itemize}
-      \item Поддержка аппаратной части обучающих тренажёров
-        \par{
-          \scriptsize
-          --- сотрудничество с НИИ
-        }
-      \item Интеграция в популярные САПР
-        \par{
-          \scriptsize
-          --- сотрудничество с разработчиками
-        }
-    \end{itemize}
+  \begin{frame}{Результаты 1 года}
+    \begin{center}
+      \todo{Скриншоты с сердцем!}
 
-    Риски:
-    \begin{itemize}
-      \item Аппаратная несовместимость
-        \par{
-          \scriptsize
-          $\Longrightarrow$ добавление режима совместимости
-        }
-      \item Консервативность потребителей
-        \par{
-          \scriptsize
-          $\Longrightarrow$ демонстрация, реклама, опытное апробирование
-        }
-      \item Интеллектуальная собственность
-        \par{
-          \scriptsize
-          $\Longrightarrow$ регистрация авторских свидетельств на ПО и алгоритм
-        }
-    \end{itemize}
+      % TODO почему съезжает картинка на <1> слайде?
+      \only<1>{ 1. До удара \\ \includegraphics[height=0.7\textheight]{screen-0} }
+      \only<2>{ 2. Вскоре после удара \\ \includegraphics[height=0.7\textheight]{screen-1} }
+      \only<3>{ 3. После удара \\ \includegraphics[height=0.7\textheight]{screen-2} }
+      \only<4>{ Графический интерфейс \todo{Скриншот GUI!} \\ \includegraphics[height=0.7\textheight]{screen-2} }
+    \end{center}
   \end{frame}
 
   \begin{frame}{Конечный результат}
@@ -360,7 +299,7 @@
         реальном времени
       \item Программный модуль (библиотека), реализующий алгоритм, с гибким интерфейсом (API)
       \item Графическое приложение для запуска моделирования \\(на основе этой библиотеки)
-      \item \emph{(В перспективе)} Вспомогательные инструменты
+      \item Вспомогательные инструменты
     \end{itemize}
   \end{frame}
 
@@ -387,7 +326,7 @@
   \begin{frame}{Производительность}
     \begin{center}
       {
-        \tiny
+        \tiny \todo{Свежие измерения!}
         Intel Core 2 Quad Q6660 2.4 GHz, NVIDIA GeForce 8800 GTX
       }
 
