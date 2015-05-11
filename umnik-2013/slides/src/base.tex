@@ -61,6 +61,13 @@
   \renewcommand{\phi}{\varphi} % phi завитушкой
 
   \newcommand{\todo}[1]{\textbf{\textcolor{red}{TODO: #1}}}
+  \newcommand{\GPU}{\alert{GPU}} % короткая запись для выделенного GPU (встречается несколько раз)
+  \newcommand{\twocol}[1]{\multicolumn{2}{c|}{#1}}
+
+  % цвета текста для выделения
+  \newcommand{\grn}[1]{\textcolor{ForestGreen}{#1}}
+  \newcommand{\ppl}[1]{\textcolor{RoyalPurple}{#1}}
+  \newcommand{\blu}[1]{\textcolor{NavyBlue}{#1}}
 
 \title[Система моделирования пластических деформаций биологических объектов]{Информационная система моделирования динамики пластических деформаций биологических объектов}
 \author[Иван Новиков]{Новиков Иван Александрович}
@@ -76,11 +83,11 @@
     \usebackgroundtemplate{
       \begin{tikzpicture}[show background rectangle, inner frame sep=-2mm, background rectangle/.style={ draw=none }]
         \node (t) at (0,0) {};% HACK :(
-       \node[] at (0,-9) {
-         \includegraphics[width=8cm]{screen-big}
+       \node[] at (2, -6.5) {
+         \includegraphics[height=4.5cm]{screen-title-left}
        };
-       \node[] at (0, -8) {
-         \todo{Свежий скриншот!}
+       \node[] at (10.6, -6.5) {% подгон :(
+         \includegraphics[height=4.5cm]{screen-title-right}
        };
       \end{tikzpicture}
     }
@@ -184,16 +191,16 @@
 
     Задачи:
     \begin{enumerate}
-      \item Разработка \textcolor{ForestGreen}{алгоритма} моделирования
-      \item \textcolor{ForestGreen}{Его} реализация в виде \textcolor{RoyalPurple}{программной библиотеки}
-      \item Разработка на \textcolor{RoyalPurple}{её} основе \textcolor{NavyBlue}{интерактивного приложения}
+      \item Разработка \grn{алгоритма} моделирования
+      \item \grn{Его} реализация в виде \ppl{программной библиотеки}
+      \item Разработка на \ppl{её} основе \blu{интерактивного приложения}
       \item<new@1-> Интеграция с 3D-редактором
     \end{enumerate}
   \end{frame}
 
   \section{Содержание проекта}
   \subsection{Содержание проекта}
-  \begin{frame}{Научная новизна}
+  \begin{frame}{Новизна}
     \begin{enumerate}
       \setlength{\itemsep}{4mm}
       \item Производительный алгоритм моделирования деформаций:
@@ -205,7 +212,7 @@
         \begin{itemize}
           \item объединение физических методов с \alert{геометрическими};
           \item \alert{минимум ограничений} на 3D-модель объекта
-          \item применение графического процессора (\alert{GPU}).
+          \item применение графического процессора (\GPU).
         \end{itemize}
       \item \alert{Гибкий} программный интерфейс (API).
       \item Простота \alert{конфигурации}.
@@ -282,13 +289,10 @@
 
   \begin{frame}{Результаты 1 года}
     \begin{center}
-      \todo{Скриншоты с сердцем!}
-
-      % TODO почему съезжает картинка на <1> слайде?
-      \only<1>{ 1. До удара \\ \includegraphics[height=0.7\textheight]{screen-0} }
-      \only<2>{ 2. Вскоре после удара \\ \includegraphics[height=0.7\textheight]{screen-1} }
-      \only<3>{ 3. После удара \\ \includegraphics[height=0.7\textheight]{screen-2} }
-      \only<4>{ Графический интерфейс \todo{Скриншот GUI!} \\ \includegraphics[height=0.7\textheight]{screen-2} }
+      \only<1>{ Графический интерфейс \\ \includegraphics[height=0.7\textheight]{screen-gui} }
+      \only<2>{ 1. До удара \\ \includegraphics[height=0.7\textheight]{screen-0} }
+      \only<3>{ 2. Вскоре после удара \\ \includegraphics[height=0.7\textheight]{screen-1} }
+      \only<4>{ 3. После удара \\ \includegraphics[height=0.7\textheight]{screen-2} }
     \end{center}
   \end{frame}
 
@@ -325,16 +329,40 @@
 
   \begin{frame}{Производительность}
     \begin{center}
-      {
-        \tiny \todo{Свежие измерения!}
-        Intel Core 2 Quad Q6660 2.4 GHz, NVIDIA GeForce 8800 GTX
-      }
+      \begin{columns}[c]
+        \begin{column}{0.27\textwidth}
+          \includegraphics[width=\textwidth]{heart}
+        \end{column}
+        \begin{column}{0.7\textwidth}
+          \begin{center}
+            \underline{Тестовый объект:}
 
-      \includegraphics[height=0.7\textheight]{time-plot}
+            \grn{Физическая сетка : \textbf{\num{9202} точки}}
 
-      {
-        \scriptsize
-        За \alert{3 мс}/кадр: до \alert{\num{6000}} физ. точек и до \alert{\num{200000}} отображаемых вершин
+            \blu{Графическая 3D-модель: \textbf{\num{92026} вершин}}
+            \vspace{5mm}
+
+            {
+              \footnotesize
+              Время \grn{моделирования}/\blu{обновления}, мс:
+              \begin{tabular}{|>{\bfseries}r|c|c|c|c|}
+                \hline
+                Алгоритм             & \twocol{Линейный}  & \twocol{Квадратичный} \\\hline
+                Потоков              & 1 & 4 & 1 & 4 \\\hline
+                \grn{Физика} (CPU)   & \grn{2,96}  & \grn{2,04} & \grn{4,33}  & \grn{2,57}  \\\hline
+                \blu{Графика} (CPU)  & \blu{10,98} & \blu{3,82} & \blu{14,75} & \blu{4,83}  \\\hline
+                \blu{Графика} (\GPU) & \twocol{\blu{0,22}}      & \twocol{\blu{0,24}}\\\hline
+              \end{tabular}
+            }
+          \end{center}
+        \end{column}
+      \end{columns}
+      \vspace{5mm}
+
+      \softalert{Итого:} \grn{физика: от \softalert{\num{3500}} тчк/мс},
+                         \blu{графика: до \softalert{\num{380000}} тчк/мс}
+      \footnote{
+        Intel Core i5-2500K 3.3 GHz, NVIDIA GeForce 8800 GTX 560 Ti 448
       }
     \end{center}
   \end{frame}
