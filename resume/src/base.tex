@@ -50,6 +50,9 @@
     \vspace{1mm} % TODO переопределить в терминах parskip или типа того
   }
 
+  % ссылка: #1 - префикс, #2 - отображаемая середина, #3 - постфикс
+  \newcommand{\myhref}[3]{\href{#1#2#3}{\nolinkurl{#2}}}
+
   % Установка полей author и title
   \newcommand{\thetitle}{Resume}
   \newcommand{\theauthor}{Ivan Novikov}
@@ -73,22 +76,22 @@
 
     \begin{fieldset}
       \field{Date of birth} {14 December 1990}
-      \field{Gender}        {male}
-      \field{Marital status}{single}
       \field{Address}       {16 Nevkipelogo St., apt. 177, Krasnodar, Russia}
       \field{Phone}         {+7 960 4-789-879}
-      \field{E-mail}        {\href{mailto:\themail}{\nolinkurl{\themail}}}
+      \field{E-mail}        {\myhref{mailto:}{\themail}{}}
+      \field{Website}       {\myhref{https://}{about.me/moonlighter}{}}
+      \field{GitHub}        {\myhref{https://}{github.com/NIA}{?tab=repositories}}
     \end{fieldset}
   \end{minipage}
   \begin{minipage}[h]{0.19\linewidth}
-    \includegraphics[width=3cm]{photo}
+    \includegraphics[width=3cm]{photoa}
   \end{minipage}
 
   \subsection*{Education}
 
   \education{Kuban State University, Faculty of Physics and Technology, Physics and Informatics chair}
             {2012 — 2014}{Master of Science in Physics, diploma with honours degree.}{5.0}
-  \education{Novosibirsk State University, Physics Department, Physicotechnical Research Automation chair}
+  \education{Novosibirsk State University, Physics Department, Physics\&Technology Research Automation chair}
             {2007 — 2011}{Bachelor of Science in Physics, diploma with honours degree.}{5.0}
   \education{``Physics and Mathematics School'' (Specialized Educational Scientific Center of NSU)}
             {2005 — 2007}{Finished with Silver Medal. Prize-winner of regional physics olympiad.}{4.9}
@@ -102,7 +105,7 @@
   \begin{itemize}[itemsep=1.5mm,topsep=2mm]
     \item[--] С, С++, Java (have been learning and using for a long time);
     \item[--] Ruby, Python (used in some educational and homebrew projects);
-    \item[--] C\#, Scala (superficially acquainted, still learning).
+    \item[--] C\#, Scala, PHP (superficially acquainted, still learning).
   \end{itemize}
 
   Used different version control systems \emph{(Git, Subversion, Mercurial)}, relational database
@@ -113,7 +116,7 @@
   \subsubsection*{``Crash And Squeeze'' (bachelor's project + grant project)}
   \begin{description}[labelindent=1em] % TODO копипаста стиля, разобраться с этим
     \item[Topic:] ``Modeling plastic deformations of biological objects in real-time''
-    \item[Company:] SoftLab-NSK (\url{http://softlab-nsk.com}): 2010 -- 2011, grant: 2013 -- present
+    \item[Company:] SoftLab-NSK (\url{http://softlab-nsk.ru}): 2010 -- 2011, grant: 2013 -- present
     \item[Description:] a library to be integrated into a computer game or a virtual reality application
     \item[Source code:] \url{https://github.com/NIA/crash-and-squeeze}
     \item[Technologies and tools:] C++, DirectX 11; Google Test, Visual Studio, Git
@@ -123,7 +126,7 @@
 
   \subsubsection*{``Personal medical manager''}
   \begin{description}[labelindent=1em]
-    \item[Position:] software engineer
+    \item[Position:] software engineer (front-end + back-end)
     \item[Company:] NPF Mezon LLC (\url{http://mezon-kuban.ru}): 2012 -- 2014
     \item[Description:] web application to organize medical information and communicate with doctors
     \item[Website:] \url{http://diary-health.ru}
@@ -132,10 +135,10 @@
 
   \subsubsection*{UGENE Assembly Browser}
   \begin{description}[labelindent=1em]
-    \item[Position:] software engineer
-    \item[Company:] UniPro (\url{http://unipro.ru/eng}): 2011 -- 2012
+    \item[Position:] software engineer (GUI)
+    \item[Company:] UniPro (\url{http://unipro.ru}): 2011 -- 2012
     \item[Description:] visualization of huge amounts of data in an open-source bioinformatics suite
-    \item[Website:] \url{http://ugene.unipro.ru}
+    \item[Website:] \url{http://ugene.net}
     \item[Technologies and tools:] C++, Qt, sqlite; Qt Creator, Subversion, JIRA, JetBrains TeamCity
   \end{description}
 
